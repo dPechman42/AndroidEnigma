@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.mindtedtech.android_enigma.memory.MessageInfo;
 import com.mindtedtech.android_enigma.model.ListIDs;
 import com.mindtedtech.enigmamachine.machine_pieces.ConstructedMilitaryModel;
 import com.mindtedtech.enigmamachine.machines.MachineBuilder;
@@ -211,5 +212,26 @@ public class AttemptToBuildMachine
         builder.setReflectorSelected(reflectorNumber);
 
         return builder.build();
+    }
+
+    // save the settings
+    public MessageInfo getMachineMessageSettings()
+    {
+        if (!isValidConfiguration())
+            return null; // is this correct?
+
+        MessageInfo mi = new MessageInfo();
+
+        mi.enigmaVersion = enigmaVersion; // version
+        mi.plugboardConnections = validPlugboardConnections; // plugboard
+        for (int id : ListIDs.rotorIDs) // rotors
+            mi.rotors.add(((Spinner) activity.findViewById(id)).getSelectedItem().toString());
+        for (int id : ListIDs.rotorInitialPositionIDs) // initial positions
+            mi.rotorInitialPositions.add(((Spinner) activity.findViewById(id)).getSelectedItem().toString());
+        for (int id : ListIDs.rotorRingSettingIDs) // ring settings
+            mi.rotorRingSettings.add(((Spinner) activity.findViewById(id)).getSelectedItem().toString());
+        mi.reflector = ((Spinner) activity.findViewById(ListIDs.reflectorID)).getSelectedItem().toString(); // reflector
+
+        return mi;
     }
 }

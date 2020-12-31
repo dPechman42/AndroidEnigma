@@ -1,15 +1,24 @@
 package com.mindtedtech.android_enigma.activities;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.mindtedtech.android_enigma.R;
+import com.mindtedtech.android_enigma.memory.MemoryBank;
+import com.mindtedtech.android_enigma.memory.MessageInfo;
 import com.mindtedtech.android_enigma.model.ListIDs;
 import com.mindtedtech.enigmamachine.interfaces.MachineModel;
 import com.mindtedtech.enigmamachine.utilities.WiringData;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,16 +26,23 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 
 import static com.mindtedtech.android_enigma.lib.Utils.showInfoDialog;
 
 public class MainActivity extends AppCompatActivity
 {
     private static WiringData.enimgaVersionsEnum enigmaVersion;
+    private MemoryBank memoryBank;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -35,6 +51,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupSpinners(WiringData.enimgaVersionsEnum.ENIGMA_1);
+        memoryBank = new MemoryBank(MainActivity.this);
 
         setupFAB();
     }
@@ -186,6 +203,13 @@ public class MainActivity extends AppCompatActivity
 
             TextView outputText = (TextView) findViewById(R.id.output_text);
             outputText.setText(cipherText);
+
+            // save message info
+            MessageInfo mi = attempt.getMachineMessageSettings();
+            mi.plaintext = inputText;
+            mi.ciphertext = cipherText;
+            // save message to memory banks
+            memoryBank.addMessage(mi);
         }
     }
 
