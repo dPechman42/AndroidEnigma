@@ -6,4 +6,14 @@
 
     <include layout="@layout/main_enigma_hardware" />
     <include layout="@layout/main_input_text" />
+
+    <include layout="@layout/main_include_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_constraintTop_toBottomOf="@+id/output_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </merge>

@@ -10,6 +10,6 @@
 
     <include layout="@layout/content_main" />
 
-    <include layout="@layout/main_include_fab" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

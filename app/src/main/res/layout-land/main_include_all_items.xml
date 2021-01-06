@@ -35,7 +35,11 @@
         <include layout="@layout/main_input_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            />
+            android:layout_gravity="center_vertical" />
+        <include layout="@layout/main_include_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginTop="100dp"/>
     </LinearLayout>
 </LinearLayout>
